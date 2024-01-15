@@ -17,17 +17,14 @@ public class Listeners extends BaseTest implements ITestListener{
 	
 	ExtentTest test;
 	ExtentReports extent = ExtentReporterNG.getReportObject();
-	@Override
 	public void onTestStart(ITestResult result) {
 		test = extent.createTest(result.getMethod().getMethodName());
 	}
 	
-	@Override
 	public void onTestSuccess(ITestResult result) {
 		test.log(Status.PASS, "Test Passed");
 	}
 	
-	@Override
 	public void onTestFailure(ITestResult result) {
 		test.fail(result.getThrowable());
 //		try {
@@ -51,7 +48,6 @@ public class Listeners extends BaseTest implements ITestListener{
 //		//Screenshot
 	}
 	
-	@Override
 	public void onFinish(ITestContext result) {
 		extent.flush();
 		
