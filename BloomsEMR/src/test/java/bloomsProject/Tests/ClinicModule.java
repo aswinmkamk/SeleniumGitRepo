@@ -64,6 +64,8 @@ public class ClinicModule extends BaseTest{
 		clinicPage.clinicRedirection();
 		
 		driver.findElement(By.xpath("//button[normalize-space()='Add New Clinic']")).click();
+		
+		System.out.println("ABC");
 
 		clinicPage.clinicdetailfetch();
 
