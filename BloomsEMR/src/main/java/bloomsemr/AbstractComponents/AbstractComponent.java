@@ -32,7 +32,7 @@ public class AbstractComponent {
 	
 	public void goToAdministration() throws InterruptedException
 	{
-		Thread.sleep(9000);
+		Thread.sleep(5000);
 		administrationHeader.click();
 	}
 

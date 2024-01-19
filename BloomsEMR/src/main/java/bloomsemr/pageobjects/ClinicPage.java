@@ -46,10 +46,6 @@ public class ClinicPage extends AbstractComponent {
 		
 		clinicHeader.click();
 
-//		Thread.sleep(3000);
-
-//		clinicAddButton.click();
-
 		Thread.sleep(3000);
 	}
 
@@ -63,13 +59,16 @@ public class ClinicPage extends AbstractComponent {
 	@FindBy(xpath = "//input[@type='file']")
 	WebElement uploadFile;
 
-	public void clinicAddition(String name, String address) {
+	public void clinicAddition(String name, String address) throws InterruptedException {
+//		Thread.sleep(2000);
+		By nameBy = By.cssSelector("input[placeholder='Enter Name']");
+		waitForElementToAppear(nameBy);
 		clinicName.sendKeys(name);
 		clinicAddress.sendKeys(address);
 		uploadFile.sendKeys("/home/cubet/Desktop/WorldAutomation/InputFiles/logoimage.jpeg");
 	}
 
-	public void clinicdetailfetch() throws IOException {
+	public void clinicdetailfetch() throws IOException, InterruptedException {
 
 		ClinicDataReader d = new ClinicDataReader();
 		ArrayList<String> data = d.getData("Clinic 1");
@@ -123,38 +122,12 @@ public class ClinicPage extends AbstractComponent {
 		item.isDisplayed();
 		Thread.sleep(2000);
 	}
-
-	public List<String> paginationSelector() throws InterruptedException
-	{
-		int paginationSize = driver.findElements(By.cssSelector("li[class='page-item ng-star-inserted']")).size();
-		
-		List<String> names = new ArrayList<String>();
-		
-		for(int i = 1; i<=paginationSize; i++)
-		{
-			Thread.sleep(5000);
-			
-			String paginationSelector = "(//a[@class='page-link ng-star-inserted'])["+i+"]";
-			
-			
-			WebElement selector =  driver.findElement(By.xpath(paginationSelector));
-			
-			selector.click();
-			
-			List<WebElement> nameElements = driver.findElements(By.xpath("//td[@class='mat-cell cdk-cell cdk-column-clinicname mat-column-clinicname ng-star-inserted']"));
-			
-			for(WebElement namesElement : nameElements)
-			{
-				names.add(namesElement.getText());
-			}
-//			for print the name
-			for (String name : names)
-			{
-				System.out.println(names);
-			}
-		}
-		return names;
 	
+	public void deleteClinic()
+	{
+		driver.findElement(By.xpath("//tbody/tr[1]/td[3]/div[1]/div[2]")).click();
+		
+		driver.findElement(By.xpath("//button[@type='submit']")).click();
 	}
 
 	

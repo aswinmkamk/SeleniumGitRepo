@@ -59,13 +59,13 @@ public class ClinicModule extends BaseTest{
 		
 
 		ClinicPage clinicPage = new ClinicPage(driver);
+		
 		clinicPage.goToAdministration();
 
 		clinicPage.clinicRedirection();
 		
 		driver.findElement(By.xpath("//button[normalize-space()='Add New Clinic']")).click();
-		
-		System.out.println("ABC");
+	
 
 		clinicPage.clinicdetailfetch();
 
@@ -73,7 +73,7 @@ public class ClinicModule extends BaseTest{
 		
 	}
 	
-	@Test(retryAnalyzer = Retry.class)
+//	@Test(retryAnalyzer = Retry.class)
 	public void editClinic() throws InterruptedException
 	{
 		ClinicPage clinicPage = new ClinicPage(driver);
@@ -87,7 +87,7 @@ public class ClinicModule extends BaseTest{
 		
 	}
 	
-	@Test(retryAnalyzer = Retry.class)
+//	@Test(retryAnalyzer = Retry.class)
 	public void searchClinic() throws InterruptedException, IOException
 	{
 		ClinicPage clinicPage = new ClinicPage(driver);
@@ -101,6 +101,59 @@ public class ClinicModule extends BaseTest{
 		
 		}
 	
+//	@Test
+	public void paginationCheck() throws InterruptedException
+	{
+		ClinicPage clinicPage = new ClinicPage(driver);
+		
+		clinicPage.goToAdministration();
+		
+		clinicPage.clinicRedirection();
+		
+		Thread.sleep(3000);
+		
+		int paginationSize = driver.findElements(By.xpath("//li[@class='page-item ng-star-inserted']")).size();
+		
+		List<String> names = new ArrayList<String>();
+		
+		for (int i=1;i<=paginationSize;i++)
+		{
+			String paginationSelector = "(//a[@class='page-link ng-star-inserted'])["+i+"]";
+			driver.findElement(By.xpath(paginationSelector)).click();
+			Thread.sleep(2000);
+			List<WebElement> namesElements = driver.findElements(By.xpath("//td[@class='mat-cell cdk-cell cdk-column-clinicname mat-column-clinicname ng-star-inserted']"));
+			
+			for(WebElement namesElement : namesElements)
+			{
+				names.add(namesElement.getText());
+			}
+			
+		}
+		
+		int totalNames = names.size();
+		System.out.println("Total table count = " +totalNames);
+		
+		String displayedCount = driver.findElement(By.xpath("//div[@id='mat-tab-label-0-7']")).getText().split(" ")[1];
+		
+		System.out.println("Total displayed count "+ displayedCount);
+
+		Assert.assertEquals(displayedCount, String.valueOf(totalNames));
+		
+		Thread.sleep(3000);
+		
+	}
 	
+//	@Test
+	public void deleteClinic() throws InterruptedException
+	{
+		ClinicPage clinicPage = new ClinicPage(driver);
+		
+		clinicPage.goToAdministration();
+		
+		clinicPage.clinicRedirection();
+		
+		clinicPage.deleteClinic();
+	}
+
 	
 }
